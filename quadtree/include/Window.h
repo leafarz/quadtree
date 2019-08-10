@@ -29,7 +29,9 @@ public:
 	SDL_Renderer* renderer = nullptr;
 	SDL_Window* window = nullptr;
 	int width, height;
-	Vec2f origin;
+
+private:
+	Vec2f center;
 };
 
 #endif

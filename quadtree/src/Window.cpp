@@ -3,7 +3,7 @@
 #include "SDL.h"
 
 Window::Window(int width, int height)
-	: width(width), height(height), origin({(float)width * 0.5f, (float)height * 0.5f})
+	: width(width), height(height), center({(float)width * 0.5f, (float)height * 0.5f})
 {
 
 }
@@ -34,7 +34,7 @@ void Window::drawLine(const Vec2f& from, const Vec2f& to, const Color& color)
 		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
 	}
 
-	SDL_RenderDrawLineF(renderer, from.x, height - from.y, to.x, height - to.y);
+	SDL_RenderDrawLineF(renderer, center.x + from.x, height - (center.x + from.y), center.x + to.x, height - (center.y + to.y));
 }
 
 void Window::drawPoint(const Vec2f& position, const Color& color)
@@ -45,7 +45,7 @@ void Window::drawPoint(const Vec2f& position, const Color& color)
 		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
 	}
 
-	SDL_RenderDrawPointF(renderer, position.x, height - position.y);
+	SDL_RenderDrawPointF(renderer, position.x + center.x, height - (center.y + position.y));
 }
 
 void Window::drawRect(const Vec2f& position, const Vec2f& extents, const Color& color)
@@ -59,8 +59,8 @@ void Window::drawRect(const Vec2f& position, const Vec2f& extents, const Color& 
 	SDL_RenderDrawRectF(
 		renderer,
 		&SDL_FRect({
-			position.x - extents.x,
-			height - position.y - extents.y,
+			center.x + position.x - extents.x,
+			height - (center.y + position.y + extents.y),
 			extents.x + extents.x,
 			extents.y + extents.y,
 			})

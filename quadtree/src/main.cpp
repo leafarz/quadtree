@@ -24,15 +24,14 @@ float getRandFloat(float min, float max);
 
 void init(void)
 {
-	const Vec2f& _origin = window->origin;
-	float _w = (float)window->width;
-	float _h = (float)window->height;
+	float _w = (float)window->width * 0.5f;
+	float _h = (float)window->height * 0.5f;
 
-	qt = new QuadTree({ _origin, { 0.5f * _w, 0.5f * _h} });
+	qt = new QuadTree({ {0, 0}, { _w, _h} });
 	for (int i = -1; ++i < 100; )
 	{
-		float _x = getRandFloat(0, _w);
-		float _y = getRandFloat(0, _h);
+		float _x = getRandFloat(-_w, _w);
+		float _y = getRandFloat(-_h, _h);
 		qt->insert({ _x, _y });
 	}
 }
@@ -42,11 +41,11 @@ void onRender(float dt)
 	//const Vec2f& _origin = window->origin;
 
 	// draw sad face
-	//window->drawRect(_origin, { 75, 75 });
-	//window->drawRect(_origin + Vec2f(30, 30), { 20, 20 });
-	//window->drawRect(_origin + Vec2f(-30, 30), { 20, 20 });
-	//window->drawLine(_origin + Vec2f(-30, -30), _origin + Vec2f(0, -20));
-	//window->drawLine(_origin + Vec2f(30, -30), _origin + Vec2f(0, -20));
+	//window->drawRect({ 0,0 }, { 75, 75 });
+	//window->drawRect(Vec2f(30, 30), { 20, 20 });
+	//window->drawRect(Vec2f(-30, 30), { 20, 20 });
+	//window->drawLine(Vec2f(-30, -30), Vec2f(0, -20));
+	//window->drawLine(Vec2f(30, -30), Vec2f(0, -20));
 
 	//std::cout << 1 / dt << std::endl;
 	qt->draw(window);
