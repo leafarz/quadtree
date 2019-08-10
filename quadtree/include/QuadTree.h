@@ -14,12 +14,15 @@ struct QuadTree
 {
 public:
 	QuadTree(const AABB& boundary);
+	~QuadTree(void);
 
 	bool insert(const Vec2f& location);
 	void subdivide(void);
 	const std::vector<Vec2f> queryRange(const AABB& range);
 
 	void draw(Window* window);
+
+	void freeRecursive(void);
 
 public:
 	static const int QT_NODE_CAPACITY = 4;

@@ -7,6 +7,10 @@
 QuadTree::QuadTree(const AABB& boundary)
 	: boundary(boundary)
 { }
+
+QuadTree::~QuadTree(void)
+{ }
+
 bool QuadTree::insert(const Vec2f& location)
 {
 	if (!boundary.containsPoint(location))
@@ -104,4 +108,21 @@ void QuadTree::draw(Window* window)
 	ne->draw(window);
 	sw->draw(window);
 	se->draw(window);
+}
+
+void QuadTree::freeRecursive(void)
+{
+	// we don't really need to call this but oh well
+	points.clear();
+
+	if (nw == nullptr) { return; }
+	nw->freeRecursive();
+	ne->freeRecursive();
+	sw->freeRecursive();
+	se->freeRecursive();
+	
+	delete nw;
+	delete ne;
+	delete sw;
+	delete se;
 }

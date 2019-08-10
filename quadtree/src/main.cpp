@@ -18,18 +18,18 @@ QuadTree* qt;
 #pragma region FUNCTION_DECLARATIONS
 void init(void);
 void onRender(float dt);
+void onExit(void);
 float getRandFloat(float min, float max);
 #pragma endregion FUNCTION_DECLARATIONS
 
 void init(void)
 {
-	Vec2f _origin = window->origin;
+	const Vec2f& _origin = window->origin;
 	float _w = (float)window->width;
 	float _h = (float)window->height;
 
 	qt = new QuadTree({ _origin, { 0.5f * _w, 0.5f * _h} });
-
-	for (int i = -1; ++i < 1000; )
+	for (int i = -1; ++i < 100; )
 	{
 		float _x = getRandFloat(0, _w);
 		float _y = getRandFloat(0, _h);
@@ -39,7 +39,8 @@ void init(void)
 
 void onRender(float dt)
 {
-	const Vec2f& _origin = window->origin;
+	//const Vec2f& _origin = window->origin;
+
 	// draw sad face
 	//window->drawRect(_origin, { 75, 75 });
 	//window->drawRect(_origin + Vec2f(30, 30), { 20, 20 });
@@ -49,6 +50,12 @@ void onRender(float dt)
 
 	//std::cout << 1 / dt << std::endl;
 	qt->draw(window);
+}
+
+void onExit(void)
+{
+	qt->freeRecursive();
+	delete qt;
 }
 
 int main(int argc, char *argv[])
@@ -106,6 +113,7 @@ int main(int argc, char *argv[])
 			}
 		}
 
+		onExit();
 		window->destroy();
 	}
 
