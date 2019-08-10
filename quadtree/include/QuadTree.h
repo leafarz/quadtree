@@ -16,6 +16,9 @@ public:
 	QuadTree(const AABB& boundary);
 	~QuadTree(void);
 
+	const AABB& getBoundary(void) const { return boundary; }
+	const std::vector<Vec2f>& getPoints(void) const { return points; }
+
 	bool insert(const Vec2f& location);
 	void subdivide(void);
 	const std::vector<Vec2f> queryRange(const AABB& range);
@@ -24,7 +27,7 @@ public:
 
 	void freeRecursive(void);
 
-public:
+private:
 	static const int QT_NODE_CAPACITY = 4;
 
 	AABB boundary;

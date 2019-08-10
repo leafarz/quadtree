@@ -28,9 +28,9 @@ void Window::destroy(void)
 
 void Window::drawLine(const Vec2f& from, const Vec2f& to, const Color& color)
 {
-	if (CURRENT_COLOR != color.ID)
+	if (CURRENT_COLOR != color.getID())
 	{
-		CURRENT_COLOR = color.ID;
+		CURRENT_COLOR = color.getID();
 		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
 	}
 
@@ -39,9 +39,9 @@ void Window::drawLine(const Vec2f& from, const Vec2f& to, const Color& color)
 
 void Window::drawPoint(const Vec2f& position, const Color& color)
 {
-	if (CURRENT_COLOR != color.ID)
+	if (CURRENT_COLOR != color.getID())
 	{
-		CURRENT_COLOR = color.ID;
+		CURRENT_COLOR = color.getID();
 		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
 	}
 
@@ -50,9 +50,9 @@ void Window::drawPoint(const Vec2f& position, const Color& color)
 
 void Window::drawRect(const Vec2f& position, const Vec2f& extents, const Color& color)
 {
-	if (CURRENT_COLOR != color.ID)
+	if (CURRENT_COLOR != color.getID())
 	{
-		CURRENT_COLOR = color.ID;
+		CURRENT_COLOR = color.getID();
 		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
 	}
 

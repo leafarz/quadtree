@@ -24,8 +24,8 @@ float getRandFloat(float min, float max);
 
 void init(void)
 {
-	float _w = (float)window->width * 0.5f;
-	float _h = (float)window->height * 0.5f;
+	float _w = (float)window->getWidth() * 0.5f;
+	float _h = (float)window->getHeight() * 0.5f;
 
 	qt = new QuadTree({ {0, 0}, { _w, _h} });
 	for (int i = -1; ++i < 100; )
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 
 
 	if (SDL_Init(SDL_INIT_VIDEO) == 0) {
-		if (SDL_CreateWindowAndRenderer(window->width, window->height, 0, &window->window, &window->renderer) == 0)
+		if (SDL_CreateWindowAndRenderer(window->getWidth(), window->getHeight(), 0, window->getWindow(), window->getRenderer()) == 0)
 		{
 			SDL_bool done = SDL_FALSE;
 

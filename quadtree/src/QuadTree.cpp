@@ -38,8 +38,8 @@ bool QuadTree::insert(const Vec2f& location)
 
 void QuadTree::subdivide(void)
 {
-	Vec2f _center = boundary.center;
-	Vec2f _halfExtent = boundary.extent * 0.5f;
+	Vec2f _center = boundary.getCenter();
+	Vec2f _halfExtent = boundary.getExtents() * 0.5f;
 
 	nw = new QuadTree({ {_center.x - _halfExtent.x, _center.y + _halfExtent.y}, _halfExtent });
 	ne = new QuadTree({ {_center.x + _halfExtent.x, _center.y + _halfExtent.y}, _halfExtent });
@@ -95,7 +95,7 @@ const std::vector<Vec2f> QuadTree::queryRange(const AABB& range)
 
 void QuadTree::draw(Window* window)
 {
-	window->drawRect(boundary.center, boundary.extent);
+	window->drawRect(boundary.getCenter(), boundary.getExtents());
 
 	for (std::vector<Vec2f>::iterator it = points.begin(); it != points.end(); ++it)
 	{

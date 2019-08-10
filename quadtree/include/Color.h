@@ -14,13 +14,15 @@ public:
 	static const Color Green;
 	static const Color Blue;
 
-	static uint8_t COLOR_ID;
+	uint8_t r, g, b, a;
 
 	Color(void);
 	Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
-public:
-	uint8_t r, g, b, a;
+	uint8_t getID(void) const { return ID; }
+
+private:
 	uint8_t ID;
+	static uint8_t COLOR_COUNTER;
 };
 #endif

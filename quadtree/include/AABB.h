@@ -13,11 +13,15 @@ public:
 	AABB(void);
 	AABB(const Vec2f& center, const Vec2f& extent);
 
+	const Vec2f& getCenter(void) const { return center; }
+	const Vec2f& getExtents(void) const { return extents; }
+
 	bool containsPoint(const Vec2f& position) const;
 	bool intersects(const AABB& other) const;
 
+private:
 	Vec2f center;
-	Vec2f extent;
+	Vec2f extents;
 };
 
 #endif
