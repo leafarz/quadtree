@@ -23,5 +23,4 @@ private:
 	Vec2f center;
 	Vec2f extents;
 };
-
 #endif

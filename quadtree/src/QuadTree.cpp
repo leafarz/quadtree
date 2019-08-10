@@ -9,7 +9,10 @@ QuadTree::QuadTree(const AABB& boundary)
 { }
 
 QuadTree::~QuadTree(void)
-{ }
+{
+	freeRecursive();
+	delete this;
+}
 
 bool QuadTree::insert(const Vec2f& location)
 {

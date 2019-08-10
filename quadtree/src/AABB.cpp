@@ -27,4 +27,3 @@ bool AABB::intersects(const AABB& other) const
 	return	_min.x <= _otherMax.x && _max.x >= _otherMin.x &&
 			_min.y <= _otherMax.y && _max.y >= _otherMin.y;
 }
-
