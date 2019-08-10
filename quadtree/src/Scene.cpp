@@ -29,6 +29,8 @@ void Scene::onStart(void)
 	float _h = (float)_window->getHeight() * 0.5f;
 
 	m_QuadTree = new QuadTree({ {0, 0}, { _w, _h} });
+
+	srand(time(NULL));
 	for (int i = -1; ++i < 100; )
 	{
 		float _x = getRandFloat(-_w, _w);
