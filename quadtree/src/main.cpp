@@ -1,5 +1,5 @@
-#include "SDL.h"
 #include <iostream>
+#include "SDL.h"
 
 #include "Window.h"
 #include "Vec2f.h"
@@ -11,7 +11,6 @@ using namespace gg::math; // from Vec2f.h
 // timers
 static float game_time = 0.0f;
 static float FPS = 60.0f;
-
 Window* window = new Window(800, 800);
 QuadTree* qt;
 #pragma endregion VARIABLES
@@ -109,6 +108,7 @@ int main(int argc, char *argv[])
 
 		window->destroy();
 	}
+
 	SDL_Quit();
 	return 0;
 }

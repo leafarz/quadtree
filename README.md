@@ -1,2 +1,2 @@
 # Quadtree
-Simplest implementation for quadtrees
+Simple implementation for quadtrees

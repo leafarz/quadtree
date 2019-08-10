@@ -19,4 +19,5 @@ public:
 	Vec2f center;
 	Vec2f extent;
 };
+
 #endif

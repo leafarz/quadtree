@@ -2,7 +2,6 @@
 
 #include "Color.h"
 
-// These colors should only be the ones used (because of COLOR_ID hack)
 const Color Color::White	=	Color(	255,	255,	255,	255);
 const Color Color::Black	=	Color(	0,		0,		0,		255);
 const Color Color::Red		=	Color(	255,	0,		0,		255);
