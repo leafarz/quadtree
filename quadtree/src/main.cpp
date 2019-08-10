@@ -1,74 +1,57 @@
 #include "SDL.h"
 #include <iostream>
 
+#include "Window.h"
 #include "Vec2f.h"
+#include "QuadTree.h"
 
 using namespace gg::math; // from Vec2f.h
 
-#pragma region DONT_EDIT
-
-// renderer
-SDL_Renderer* renderer = NULL;
-
+#pragma region VARIABLES
 // timers
 static float game_time = 0.0f;
 static float FPS = 60.0f;
 
-// ID
-static uint8_t COLOR_ID = 0;
-static uint8_t CURRENT_COLOR = 0;
+Window* window = new Window(800, 800);
+QuadTree* qt;
+#pragma endregion VARIABLES
 
-static int WIDTH = 800;
-static int HEIGHT = 800;
-static Vec2f origin;
-
-struct Color
-{
-	uint8_t r, g, b, a;
-	uint8_t ID;
-
-	Color(void)
-		: r(0), g(0), b(0), a(255), ID(++COLOR_ID)
-	{ }
-
-	Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
-		: r(r), g(g), b(b), a(a), ID(++COLOR_ID)
-	{ }
-};
-// These colors should only be the ones used (because of COLOR_ID hack)
-static const Color White	=	Color(	255,	255,	255,	255);
-static const Color Black	=	Color(	0,		0,		0,		255);
-static const Color Red		=	Color(	255,	0,		0,		255);
-static const Color Green	=	Color(	0,		255,	0,		255);
-static const Color Blue		=	Color(	0,		0,		255,	255);
-
-// functions
-void onRender(float dt);
-void drawLine(const Vec2f& from, const Vec2f& to, const Color& color = White);
+#pragma region FUNCTION_DECLARATIONS
 void init(void);
-void drawPoint(const Vec2f& position, const Color& color = White);
-void drawRect(const Vec2f& position, const Vec2f& extents, const Color& color = White);
-
-#pragma endregion DONT_EDIT
+void onRender(float dt);
+float getRandFloat(float min, float max);
+#pragma endregion FUNCTION_DECLARATIONS
 
 void init(void)
 {
-	WIDTH = 800;
-	HEIGHT = 800;
-	origin = Vec2f(0.5f * WIDTH, 0.5f * HEIGHT);
+	Vec2f _origin = window->origin;
+	float _w = (float)window->width;
+	float _h = (float)window->height;
+
+	qt = new QuadTree({ _origin, { 0.5f * _w, 0.5f * _h} });
+
+	for (int i = -1; ++i < 1000; )
+	{
+		float _x = getRandFloat(0, _w);
+		float _y = getRandFloat(0, _h);
+		qt->insert({ _x, _y });
+	}
 }
 
 void onRender(float dt)
 {
-	// draw
-	drawRect(origin, { 150, 150 });
-	drawRect(origin + Vec2f(30, 30), { 20, 20 });
-	drawRect(origin + Vec2f(-30, 30), { 20, 20 });
-	drawLine(origin + Vec2f(-30, -30), origin + Vec2f(0, -20));
-	drawLine(origin + Vec2f(30, -30), origin + Vec2f(0, -20));
+	const Vec2f& _origin = window->origin;
+	// draw sad face
+	//window->drawRect(_origin, { 75, 75 });
+	//window->drawRect(_origin + Vec2f(30, 30), { 20, 20 });
+	//window->drawRect(_origin + Vec2f(-30, 30), { 20, 20 });
+	//window->drawLine(_origin + Vec2f(-30, -30), _origin + Vec2f(0, -20));
+	//window->drawLine(_origin + Vec2f(30, -30), _origin + Vec2f(0, -20));
+
+	//std::cout << 1 / dt << std::endl;
+	qt->draw(window);
 }
 
-#pragma region DONT_EDIT
 int main(int argc, char *argv[])
 {
 	init();
@@ -80,9 +63,7 @@ int main(int argc, char *argv[])
 
 
 	if (SDL_Init(SDL_INIT_VIDEO) == 0) {
-		SDL_Window* window = NULL;
-
-		if (SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &window, &renderer) == 0)
+		if (SDL_CreateWindowAndRenderer(window->width, window->height, 0, &window->window, &window->renderer) == 0)
 		{
 			SDL_bool done = SDL_FALSE;
 
@@ -98,9 +79,7 @@ int main(int argc, char *argv[])
 				}
 
 				// clear frame
-				CURRENT_COLOR = 0;
-				SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-				SDL_RenderClear(renderer);
+				window->clear();
 
 				// ++++++++++++++++ TIMER
 				float _currTime = SDL_GetTicks() * 0.001f;
@@ -120,7 +99,7 @@ int main(int argc, char *argv[])
 					
 					onRender(_delta);
 
-					SDL_RenderPresent(renderer);
+					window->submit();
 
 					_timer = _rem;
 				}
@@ -128,57 +107,13 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		if (renderer)
-		{
-			SDL_DestroyRenderer(renderer);
-		}
-		if (window)
-		{
-			SDL_DestroyWindow(window);
-		}
+		window->destroy();
 	}
 	SDL_Quit();
 	return 0;
 }
 
-void drawLine(const Vec2f& from, const Vec2f& to, const Color& color)
+float getRandFloat(float min, float max)
 {
-	if (CURRENT_COLOR != color.ID)
-	{
-		CURRENT_COLOR = color.ID;
-		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
-	}
-
-	SDL_RenderDrawLineF(renderer, from.x, HEIGHT - from.y, to.x, HEIGHT - to.y);
+	return min + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (max - min)));
 }
-
-void drawPoint(const Vec2f& position, const Color& color)
-{
-	if (CURRENT_COLOR != color.ID)
-	{
-		CURRENT_COLOR = color.ID;
-		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
-	}
-
-	SDL_RenderDrawPointF(renderer, position.x, HEIGHT - position.y);
-}
-
-void drawRect(const Vec2f& position, const Vec2f& extents, const Color& color)
-{
-	if (CURRENT_COLOR != color.ID)
-	{
-		CURRENT_COLOR = color.ID;
-		SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
-	}
-
-	SDL_RenderDrawRectF(
-		renderer,
-		&SDL_FRect({
-			position.x - 0.5f * extents.x,
-			HEIGHT - position.y - 0.5f * extents.y,
-			extents.x,
-			extents.y,
-		})
-	);
-}
-#pragma endregion DONT_EDIT

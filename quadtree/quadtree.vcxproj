@@ -99,13 +99,21 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\AABB.cpp" />
+    <ClCompile Include="src\Color.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MathUtil.cpp" />
+    <ClCompile Include="src\QuadTree.cpp" />
     <ClCompile Include="src\Vec2f.cpp" />
+    <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\AABB.h" />
+    <ClInclude Include="include\Color.h" />
     <ClInclude Include="include\MathUtil.h" />
+    <ClInclude Include="include\QuadTree.h" />
     <ClInclude Include="include\Vec2f.h" />
+    <ClInclude Include="include\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

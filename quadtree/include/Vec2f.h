@@ -4,8 +4,6 @@
 
 #include <iomanip>
 
-namespace gg { namespace math { struct Vec3f; struct Vec4f; } }
-
 namespace gg { namespace math {
 	struct Vec2f
 	{
@@ -31,10 +29,6 @@ namespace gg { namespace math {
 		 * 1st and 2nd indices, otherwise Vec2f will have unexpected values.
 		 */
 		Vec2f(void* vec);
-		/* Creates vector from x,y values of Vec3f. */
-		Vec2f(const Vec3f& A);
-		/* Creates vector from x,y values of Vec4f. */
-		Vec2f(const Vec4f& A);
 
 		friend Vec2f operator+(const Vec2f& A, const Vec2f& B);
 		Vec2f operator-(void) const;
